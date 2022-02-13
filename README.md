@@ -1,7 +1,7 @@
 # kata-supermarket
 Supermarket Pricing
  
-The problem domain is something seemingly simple: pricing goods at supermarkets.
+The problem domain is something simple: pricing goods at supermarkets.
 
 Some things in supermarkets have simple prices: this can of beans costs $0.65. Other things have more complex prices. For example:
 •     three for a dollar (so what’s the price if I buy 4, or 5?)
