@@ -13,10 +13,8 @@ public class ComputeOrderTest {
 
     final Product prd0 = new Product("Computer", new BigDecimal(999), null);
     final Product prd1 = new Product("Cup", new BigDecimal(2), PricingSchemeType.BUY_TWO_GET_ONE_FREE);
-    Product prd2 = new Product("Chocolate bar", new BigDecimal(0.5), PricingSchemeType.THREE_FOR_ONE_DOLLAR);
-    //final Product prd5 = (Product) prd2.clone();
+    final Product prd2 = new Product("Chocolate bar", new BigDecimal(0.5), PricingSchemeType.THREE_FOR_ONE_DOLLAR);
     final Product prd3 = new Product("Flour", new BigDecimal(0.65), PricingSchemeType.FIXED_PRICE_PER_POUND);
-    //final Product prd4 = new Product("Flour", new BigDecimal(1.5), PricingSchemeType.FIXED_PRICE_PER_POUND);
 
     final Map<Product, Integer> prdDetails1 = new HashMap<>();
     final Map<Product, Float> prdDetails2 = new HashMap<>();
