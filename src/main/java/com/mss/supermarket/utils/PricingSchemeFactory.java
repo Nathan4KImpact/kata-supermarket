@@ -3,16 +3,20 @@ package com.mss.supermarket.utils;
 import com.mss.supermarket.business.*;
 
 public class PricingSchemeFactory {
-    
-    public static PriceCalculationByScheme factory(PricingSchemeType p){
-        PriceCalculationByScheme oPcBs = null;
-        if (p == null) p = PricingSchemeType.DEFAULT;
-        switch (p){
-            case THREE_FOR_ONE_DOLLAR: oPcBs = new PriceCalculation1();break;
-            case FIXED_PRICE_PER_POUND: oPcBs = new PriceCalculation2();break;
-            case BUY_TWO_GET_ONE_FREE: oPcBs = new PriceCalculation3();break;
-            case DEFAULT : oPcBs = new PriceCalculation2();
-        }
+    private static IPriceCalculationByScheme oPcBs;
+
+    private PricingSchemeFactory(){}
+
+    public synchronized static IPriceCalculationByScheme getInstance(EnumPricingSchemeType pPsType){
+            if (pPsType == null)
+                pPsType = EnumPricingSchemeType.DEFAULT;
+            switch (pPsType){
+                case THREE_FOR_ONE_DOLLAR: oPcBs = new PriceCalculation341D();break;
+                case FIXED_PRICE_PER_POUND:
+                case DEFAULT :
+                    oPcBs = new PriceCalculationFixPPP();break;
+                case BUY_TWO_GET_ONE_FREE: oPcBs = new PriceCalculationB2G1();break;
+            }
         return oPcBs;
     }
 

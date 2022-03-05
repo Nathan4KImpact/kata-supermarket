@@ -1,7 +1,7 @@
 package com.mss.supermarket.model;
 
-import com.mss.supermarket.business.PriceCalculationByScheme;
-import com.mss.supermarket.business.PricingSchemeType;
+import com.mss.supermarket.business.IPriceCalculationByScheme;
+import com.mss.supermarket.business.EnumPricingSchemeType;
 import com.mss.supermarket.utils.PricingSchemeFactory;
 
 import java.io.Serializable;
@@ -14,19 +14,18 @@ import java.util.Set;
  * @author RNF
  */
 public class Product {
-    private Serializable productId;
-    private String productLabel;
+    private final String productLabel;
     protected BigDecimal productUnitPrice;
-    protected PricingSchemeType currentPricingSchemeType;
-    private PriceCalculationByScheme priceCalculationByScheme;
-    protected final static Set<PricingSchemeType> pricingSchemeHistory = new HashSet<>();
+    protected EnumPricingSchemeType currentPricingSchemeType;
+    private final IPriceCalculationByScheme priceCalculationByScheme;
+    protected final static Set<EnumPricingSchemeType> pricingSchemeHistory = new HashSet<>();
 
-    public Product(String productLabel, BigDecimal productUnitPrice, PricingSchemeType currentPricingSchemeType) {
+    public Product(String productLabel, BigDecimal productUnitPrice, EnumPricingSchemeType currPricingSchemeType) {
         this.productLabel = productLabel;
         this.productUnitPrice = productUnitPrice;
-        this.currentPricingSchemeType = currentPricingSchemeType;
-        this.priceCalculationByScheme = PricingSchemeFactory.factory(currentPricingSchemeType);
-        pricingSchemeHistory.add(currentPricingSchemeType);
+        this.currentPricingSchemeType = currPricingSchemeType;
+        this.priceCalculationByScheme = PricingSchemeFactory.getInstance(currPricingSchemeType);
+        Product.pricingSchemeHistory.add(currPricingSchemeType);// maintaining an audit trail of history of pricing scheme on a product
     }
 
     public String getProductLabel() {
@@ -41,20 +40,24 @@ public class Product {
         this.productUnitPrice = productUnitPrice;
     }
 
-    public PricingSchemeType getCurrentPricingScheme() {
+    public EnumPricingSchemeType getCurrentPricingScheme() {
         return currentPricingSchemeType;
     }
 
-    public void setCurrentPricingScheme(PricingSchemeType currentPricingScheme) {
+    public void setCurrentPricingScheme(EnumPricingSchemeType currentPricingScheme) {
         this.currentPricingSchemeType = currentPricingScheme;
     }
 
-    public PriceCalculationByScheme getPriceCalculationByScheme() {
+    public IPriceCalculationByScheme getPriceCalculationByScheme() {
         return priceCalculationByScheme;
     }
 
-    public void addPricingScheme(PricingSchemeType ps){
-        pricingSchemeHistory.add(ps);
+    @Override
+    public String toString() {
+        return "Product{" +
+                ", productLabel='" + productLabel + '\'' +
+                ", productUnitPrice=" + productUnitPrice +
+                ", currentPricingSchemeType=" + currentPricingSchemeType +
+                '}';
     }
-
 }
