@@ -1,4 +1,4 @@
-package com.mss.supermarket.business;
+package com.mss.supermarket.utils;
 
 import com.mss.supermarket.model.Product;
 

@@ -1,4 +1,4 @@
-package com.mss.supermarket.business;
+package com.mss.supermarket.utils;
 public enum EnumPricingSchemeType {
     THREE_FOR_ONE_DOLLAR,
     FIXED_PRICE_PER_POUND,

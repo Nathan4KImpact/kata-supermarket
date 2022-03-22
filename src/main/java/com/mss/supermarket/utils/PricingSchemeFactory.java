@@ -1,7 +1,5 @@
 package com.mss.supermarket.utils;
 
-import com.mss.supermarket.business.*;
-
 public class PricingSchemeFactory {
     private static IPriceCalculationByScheme oPcBs;
 
@@ -16,8 +14,11 @@ public class PricingSchemeFactory {
                 case DEFAULT :
                     oPcBs = new PriceCalculationFixPPP();break;
                 case BUY_TWO_GET_ONE_FREE: oPcBs = new PriceCalculationB2G1();break;
+
             }
         return oPcBs;
     }
+
+
 
 }
