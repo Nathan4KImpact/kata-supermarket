@@ -1,7 +1,6 @@
 import com.mss.supermarket.business.ComputeOrderService;
 import com.mss.supermarket.utils.EnumPricingSchemeType;
 import com.mss.supermarket.model.Order;
-import com.mss.supermarket.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -9,8 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ComputeOrderTest extends AbstractSupermarketData {
 
@@ -18,7 +17,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
     /* TestCase 1  : 02 items  with the default pricing : price*qty */
     @Test
     public void testComputeOrderPrice_DefaultPricing() {
-        // The price should be the sum of unit price for each item 7*$999
+        // The price should be the sum of unit price for each item 2*$999
         Assertions.assertEquals(BigDecimal.valueOf(2 * 999), computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord0}) ));
     }
 
@@ -125,53 +124,35 @@ public class ComputeOrderTest extends AbstractSupermarketData {
 
         computer = getProduct("Computer", "999", null);
         ord0 = new Order();
-        currPrdDetails.put(computer, 2);
-        ord0.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord0.setProductDetails(Collections.singletonMap(computer, 2));
 
-        Product cup = getProduct("Cup", "2", EnumPricingSchemeType.BUY_TWO_GET_ONE_FREE);
+        cup = getProduct("Cup", "2", EnumPricingSchemeType.BUY_TWO_GET_ONE_FREE);
         ord1 = new Order();
-        currPrdDetails.put(cup, 3);
-        ord1.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord1.setProductDetails(Collections.singletonMap(cup, 3));
 
         ord2 = new Order();
-        currPrdDetails.put(cup, 6);
-        ord2.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord2.setProductDetails(Collections.singletonMap(cup, 6));
 
         ord3 = new Order();
-        currPrdDetails.put(cup, 7);
-        ord3.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord3.setProductDetails(Collections.singletonMap(cup, 7));
 
-        Product chocolateBar = getProduct("Chocolate bar", "0.5", EnumPricingSchemeType.THREE_FOR_ONE_DOLLAR);
+        chocolateBar = getProduct("Chocolate bar", "0.5", EnumPricingSchemeType.THREE_FOR_ONE_DOLLAR);
         ord4 = new Order();
-        currPrdDetails.put(chocolateBar, 4);
-        ord4.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord4.setProductDetails(Collections.singletonMap(chocolateBar, 4));
 
         ord5 = new Order();
-        currPrdDetails.put(chocolateBar, 8);
-        ord5.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord5.setProductDetails(Collections.singletonMap(chocolateBar, 8));
 
         ord6 = new Order();
-        currPrdDetails.put(chocolateBar,9);
-        ord6.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord6.setProductDetails(Collections.singletonMap(chocolateBar,9));
 
 
-        Product flour = getProduct("Flour", "0.65", EnumPricingSchemeType.FIXED_PRICE_PER_POUND);
+        flour = getProduct("Flour", "0.65", EnumPricingSchemeType.FIXED_PRICE_PER_POUND);
         ord7 = new Order();
-        currPrdDetails.put(flour,  4 * POUND_TO_OUNCE_RATE);
-        ord7.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord7.setProductDetails(Collections.singletonMap(flour,  4 * POUND_TO_OUNCE_RATE));
 
         ord8 = new Order();
-        currPrdDetails.put(flour,  65 * POUND_TO_OUNCE_RATE);
-        ord8.setProductDetails(new HashMap<>(currPrdDetails));
-        currPrdDetails.clear();
+        ord8.setProductDetails(Collections.singletonMap(flour,  65 * POUND_TO_OUNCE_RATE));
 
 
         // Order for product based on Int quantities
