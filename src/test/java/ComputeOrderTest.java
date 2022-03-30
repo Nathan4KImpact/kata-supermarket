@@ -1,7 +1,7 @@
-import com.mss.supermarket.business.ComputeOrderService;
+import com.mss.supermarket.business.ComputeOrdersPriceService;
 import com.mss.supermarket.utils.EnumPricingSchemeType;
 import com.mss.supermarket.model.Order;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -18,21 +18,21 @@ public class ComputeOrderTest extends AbstractSupermarketData {
     @Test
     public void testComputeOrderPrice_DefaultPricing() {
         // The price should be the sum of unit price for each item 2*$999
-        Assertions.assertEquals(BigDecimal.valueOf(2 * 999), computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord0}) ));
+        Assertions.assertEquals(BigDecimal.valueOf(2 * 999), computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord0}) ));
     }
 
     /*  TestCase 2  :  03 items with the scheme BUY_TWO_GET_ONE_FREE */
     @Test
     public void testComputeOrderPrice_WithSchemeB2G1() {
         // The price  should be equal to 2*$2 for the 3 cups
-        Assertions.assertEquals(BigDecimal.valueOf(2 * 2), computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord1}) ));
+        Assertions.assertEquals(BigDecimal.valueOf(2 * 2), computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord1}) ));
     }
 
     /*  TestCase 3  : 06 items with the scheme BUY_TWO_GET_ONE_FREE */
     @Test
     public void testComputeOrderPrice_WithSchemeB2G1_1() {
         // The price should be equal to 4*$2 for the 6 cups
-        Assertions.assertEquals(BigDecimal.valueOf(4 * 2), computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord2}) ));
+        Assertions.assertEquals(BigDecimal.valueOf(4 * 2), computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord2}) ));
     }
 
     /*  TestCase 4 :  07 items with the scheme BUY_TWO_GET_ONE_FREE */
@@ -41,7 +41,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // The price  should be equal to 5*$2 for the 7 cups
         Assertions.assertEquals(
                 BigDecimal.valueOf(5 * 2),
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord3}) )
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord3}) )
         );
     }
 
@@ -51,7 +51,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // The price should be equal to  plus 4/3 == $1 plus the normal price of 4%3=1 more item = $1 + $0.5
         Assertions.assertEquals(
                 BigDecimal.valueOf(1 + 0.5).setScale(4, RoundingMode.HALF_UP),
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord4}) )
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord4}) )
         );
     }
 
@@ -61,7 +61,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // The price should be equal to 8/3==2 == $2 plus the normal price of 8%3=2 more item = $2 + $0.5*2
         Assertions.assertEquals(
                 BigDecimal.valueOf(3).setScale(4, RoundingMode.HALF_UP),
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord5}) )
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord5}) )
         );
     }
 
@@ -71,7 +71,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // The price should be equal to 9/3==3 == $3
         Assertions.assertEquals(
                 BigDecimal.valueOf(3).setScale(4, RoundingMode.HALF_UP),
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord6}) )
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord6}) )
         );
     }
 
@@ -81,7 +81,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // The amount of pounds in 4 ounces is 4*1/16= 0.25 pound, hence the price to add should be equal to $1.99*0.25
         Assertions.assertEquals(
                 BigDecimal.valueOf(1.99*0.25).setScale(4, RoundingMode.HALF_UP),
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord7}) )
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord7}) )
         );
     }
 
@@ -91,7 +91,7 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // The amount of pounds in 65 ounces is 65*1/16= 4.0625 pounds, hence the price to add should be equal to $1.99*4.0625
         Assertions.assertEquals(
                 BigDecimal.valueOf(1.99*4.0625).setScale(4, RoundingMode.HALF_UP),
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord8}))
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord8}))
         );
 
     }
@@ -110,16 +110,16 @@ public class ComputeOrderTest extends AbstractSupermarketData {
         // Price computation and Assertion
         Assertions.assertEquals(
                 expectedTotalPrice,
-                computeOrderService.computeOrderPrice( Arrays.asList( new Order[]{ord9, ord10}) )
+                computeOrderService.computeOrdersPrice( Arrays.asList( new Order[]{ord9, ord10}) )
         );
 
     }
 
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
 
-        computeOrderService = new ComputeOrderService();
+        computeOrderService = new ComputeOrdersPriceService();
         currPrdDetails = new HashMap<>();
 
         computer = getProduct("Computer", "999", null);

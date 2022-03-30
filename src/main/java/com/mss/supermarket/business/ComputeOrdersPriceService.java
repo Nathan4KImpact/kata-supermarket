@@ -7,31 +7,34 @@ import com.mss.supermarket.utils.PricingSchemeFactory;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class ComputeOrderService  {
+public class ComputeOrdersPriceService {
 
-    public BigDecimal computeOrderPrice(List<Order> ordList) {
+    private IPriceCalculationByScheme pricingUtilByScheme;
+
+    public BigDecimal computeOrdersPrice(List<Order> ordList) {
 
         return ordList.stream()
                 .map(ord -> {
                     ord.getProductDetails().forEach((p, qty) ->  {
-                            IPriceCalculationByScheme priceByScheme = PricingSchemeFactory.getInstance(p.getCurrentPricingScheme());
+                        pricingUtilByScheme = PricingSchemeFactory.getInstance(p.getCurrentPricingScheme());
                             if(p.getCurrentPricingScheme() != null)
                                 ord.addPriceToOrder(
-                                        priceByScheme.compute(p, qty)
+                                        pricingUtilByScheme.compute(p, qty)
                                 );
                             else if (qty instanceof Integer ){
                                 ord.addPriceToOrder(
-                                        priceByScheme.defaultComputation(p, (Integer)qty)
+                                        pricingUtilByScheme.defaultComputation(p, (Integer)qty)
                                 ); //default way of total price calculation in case the measure unit is of integer type
                             } else if (qty instanceof Float ){
                                 ord.addPriceToOrder(
-                                        priceByScheme.defaultComputation(p, (Float)qty)
+                                        pricingUtilByScheme.defaultComputation(p, (Float)qty)
                                 ); //default way of total price calculation in case the measure unit is of float type
                             } else{
                                 System.out.println("Le type d'unité de mesure n'est pas encore prise en charge par l'application...");
                             }
                         });
                     return ord.getTotalOrderPrice();
+
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
